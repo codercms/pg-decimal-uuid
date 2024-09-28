@@ -5,3 +5,15 @@ SELECT decimal_to_uuid(uuid_to_decimal('01923554-9e91-d520-f927-46af2232648c'));
  01923554-9e91-d520-f927-46af2232648c
 (1 row)
 
+SELECT decimal_to_uuid(uuid_to_decimal('00000000-0000-0000-0000-000000000000'));
+           decimal_to_uuid            
+--------------------------------------
+ 00000000-0000-0000-0000-000000000000
+(1 row)
+
+SELECT decimal_to_uuid(uuid_to_decimal('ffffffff-ffff-ffff-ffff-ffffffffffff'));
+           decimal_to_uuid            
+--------------------------------------
+ ffffffff-ffff-ffff-ffff-ffffffffffff
+(1 row)
+
