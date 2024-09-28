@@ -32,6 +32,8 @@ Open psql console from postgres superuser and run on database you want - `CREATE
 * `decimal_to_uuid` - Converts decimal back to UUID
 
 ## Performance
+CPU: 13th Gen Intel(R) Core(TM) i7-13700HX
+
 Here is the results on PostgreSQL 15 (Ubuntu 24.04 LTS) for 100 000 iterations:
 
 ```
