@@ -3,7 +3,7 @@ PostgreSQL extension that allows to convert UUID to 128-bit decimal and vice-ver
 
 ## Build
 ### Linux
-* Add PostgreSQL repository to your package manage, e.g. see this for Ubuntu https://www.postgresql.org/download/linux/ubuntu/
+* Add PostgreSQL repository to your package manager, e.g. see this for Ubuntu https://www.postgresql.org/download/linux/ubuntu/
 * Install PostgreSQL version you want, e.g. `sudo apt-get install postgresql-15`
 * Install PostgreSQL dev headers, e.g. `sudo apt-get install postgresql-server-dev-15`
 * Install build tools `sudo apt-get install build-essentials`
