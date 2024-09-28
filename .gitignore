@@ -1,0 +1,7 @@
+.vscode
+uuid_decimal.o
+uuid_decimal.bc
+uuid_decimal.so
+uuid_decimal.dll
+uint_utils.o
+uint_utils.bc
