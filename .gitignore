@@ -1,4 +1,5 @@
 .vscode
+.idea
 uuid_decimal.o
 uuid_decimal.bc
 uuid_decimal.so
