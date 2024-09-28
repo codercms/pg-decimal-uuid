@@ -24,6 +24,13 @@ Then run `make` and copy those files to `POSTGRES_PATH\share\extension` (e.g. `C
 
 And copy `uuid_decimal.dll` to `POSTGRES_PATH\lib` (e.g. `C:\Program Files\PostgreSQL\15\lib`)
 
+## Testing
+**Make sure you run tests on the build environment database, not on the production one.**
+
+* Create PostgreSQL user to run tests `CREATE USER uuid_decimal_test WITH PASSWORD 'test-suite';`
+* Grant superuser role to newly created user `ALTER ROLE uuid_decimal_test SUPERUSER;`
+* Run `make PGHOST=127.0.0.1 PGUSER=uuid_decimal_test PGPASSWORD=test-suite installcheck`
+
 ## Installation
 Open psql console from postgres superuser and run on database you want - `CREATE EXTENSION uuid_decimal;`
 
