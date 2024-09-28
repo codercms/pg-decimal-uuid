@@ -49,8 +49,8 @@ Datum uuid_to_decimal(PG_FUNCTION_ARGS)
     Numeric result;
     Numeric low;
 
-    pg_uuid_t *uuid = PG_GETARG_UUID_P(0);
-    uint8_t *bytes = (uint8_t *) uuid->data;
+    pg_uuid_t* uuid = PG_GETARG_UUID_P(0);
+    uint8_t* bytes = (uint8_t*)uuid->data;
 
     // Extract four 32-bit parts from the UUID bytes
     uint32_t part1 = Uint32BE(bytes);

@@ -8,17 +8,17 @@ uint32_t Uint32LE(uint8_t* b) {
         return (uint32_t)(b[0]) | (uint32_t)(b[1])<<8 | (uint32_t)(b[2])<<16 | (uint32_t)(b[3])<<24;
 }
 
-uint64_t Uint64BE(uint8_t *b) {
+uint64_t Uint64BE(uint8_t* b) {
         return (uint64_t)(b[7]) | (uint64_t)(b[6])<<8 | (uint64_t)(b[5])<<16 | (uint64_t)(b[4])<<24 |
                 (uint64_t)(b[3])<<32 | (uint64_t)(b[2])<<40 | (uint64_t)(b[1])<<48 | (uint64_t)(b[0])<<56;
 }
 
-uint64_t Uint64LE(uint8_t *b) {
+uint64_t Uint64LE(uint8_t* b) {
         return (uint64_t)(b[0]) | (uint64_t)(b[1])<<8 | (uint64_t)(b[2])<<16 | (uint64_t)(b[3])<<24 |
                 (uint64_t)(b[4])<<32 | (uint64_t)(b[5])<<40 | (uint64_t)(b[6])<<48 | (uint64_t)(b[7])<<56;
 }
 
-void PutUint64BE(uint8_t *b, uint64_t v) {
+void PutUint64BE(uint8_t* b, uint64_t v) {
         b[0] = (uint8_t)(v >> 56);
         b[1] = (uint8_t)(v >> 48);
         b[2] = (uint8_t)(v >> 40);
