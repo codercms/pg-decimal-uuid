@@ -55,11 +55,13 @@ int parse_uint128(const char* str, uint128* result) {
 // Function to convert uint128_t to a decimal string
 // The caller must provide a buffer of sufficient size
 char* uint128_to_string(uint128 value, char* buffer, size_t buffer_size) {
+    char* ptr;
+
     if (buffer_size < 40) {
         return NULL; // Not enough space
     }
 
-    char* ptr = buffer + buffer_size - 1; // Start from the end of the buffer
+    ptr = buffer + buffer_size - 1; // Start from the end of the buffer
     *ptr = '\0'; // Null-terminate the string
 
     // Handle zero case explicitly
