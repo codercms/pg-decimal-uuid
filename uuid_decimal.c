@@ -45,56 +45,21 @@ void _PG_init(void)
 // Function to convert UUID to decimal
 Datum uuid_to_decimal(PG_FUNCTION_ARGS)
 {
-    bool have_error = false;
-    Numeric result;
-    Numeric low;
+    char* str_buf;
+    uint128 uuid_num;
+    pg_uuid_t* uuid;
+    Numeric result; 
+    
+    uuid = PG_GETARG_UUID_P(0);
+    uuid_num = Uint128BE((uint8_t*)uuid->data);
 
-    pg_uuid_t* uuid = PG_GETARG_UUID_P(0);
-    uint8_t* bytes = (uint8_t*)uuid->data;
+    str_buf = palloc(40);
+    uint128_to_string(uuid_num, str_buf, 40);
 
-    // Extract four 32-bit parts from the UUID bytes
-    uint32_t part1 = Uint32BE(bytes);
-    uint32_t part2 = Uint32BE(bytes + 4);
-    uint32_t part3 = Uint32BE(bytes + 8);
-    uint32_t part4 = Uint32BE(bytes + 12);
+    result = numeric_in(InputBuffer(buf, strlen(buf)));
 
-    // Create variables to track errors
-    // elog(INFO, "Mul Value 2^32: %s, Mul Value: 2^64: %s",
-    //      DatumGetCString(DirectFunctionCall1(numeric_out, NumericGetDatum(numeric_2_pow_32))),
-    //      DatumGetCString(DirectFunctionCall1(numeric_out, NumericGetDatum(numeric_2_pow_64)))
-    // );
-
-    result = int64_to_numeric(part1);
-    result = numeric_mul_opt_error(result, numeric_2_pow_32, &have_error);
-    result = numeric_add_opt_error(result, int64_to_numeric(part2), &have_error);
-    result = numeric_mul_opt_error(result, numeric_2_pow_64, &have_error);
-
-    if (have_error) {
-        elog(ERROR, "Numeric ops error with high part");
-    }
-
-    low = int64_to_numeric(part3);
-    low = numeric_mul_opt_error(low, numeric_2_pow_32, &have_error);
-    low = numeric_add_opt_error(low, int64_to_numeric(part4), &have_error);
-
-
-    if (have_error) {
-        elog(ERROR, "Numeric ops error with low part");
-    }
-
-    result = numeric_add_opt_error(result, low, &have_error);
-
-
-    if (have_error) {
-        elog(ERROR, "Failed to sum high part with low part");
-    }
-
-    // Debug logging to verify result
-    // elog(INFO, "Part1: %u, Part2: %u, Part3: %u, Part4: %u, Result Numeric Value: %s",
-    //      part1, part2, part3, part4,
-    //      DatumGetCString(DirectFunctionCall1(numeric_out, NumericGetDatum(result)))
-    // );
-
+    pfree(buf)
+ 
     PG_RETURN_NUMERIC(result);
 }
 
