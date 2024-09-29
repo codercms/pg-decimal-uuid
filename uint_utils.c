@@ -54,7 +54,7 @@ int parse_uint128(const char* str, uint128* result) {
 
 // Function to convert uint128_t to a decimal string
 // The caller must provide a buffer of sufficient size
-char* uint128_to_string(uint128_t value, char* buffer, size_t buffer_size) {
+char* uint128_to_string(uint128 value, char* buffer, size_t buffer_size) {
     if (buffer_size < 40) {
         return NULL; // Not enough space
     }

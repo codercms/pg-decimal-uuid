@@ -1,4 +1,26 @@
 CREATE EXTENSION uuid_decimal;
+-- Test functions must return NULL on NULL arg
+SELECT uuid_to_decimal(NULL);
+ uuid_to_decimal 
+-----------------
+                
+(1 row)
+
+SELECT decimal_to_uuid(NULL);
+ decimal_to_uuid 
+-----------------
+ 
+(1 row)
+
+-- Must fail on negative values
+SELECT decimal_to_uuid('-1'::decimal);
+ERROR:  Cannot cast numeric to uint128
+-- Must fail on fraction values
+SELECT decimal_to_uuid('0.1'::decimal);
+ERROR:  Cannot cast numeric to uint128
+SELECT decimal_to_uuid('1.1'::decimal);
+ERROR:  Cannot cast numeric to uint128
+-- Test UUIDs can be restored to the same value
 SELECT decimal_to_uuid(uuid_to_decimal('01923554-9e91-d520-f927-46af2232648c'));
            decimal_to_uuid            
 --------------------------------------

@@ -46,20 +46,31 @@ void _PG_init(void)
 Datum uuid_to_decimal(PG_FUNCTION_ARGS)
 {
     char* str_buf;
+    char *num_str;
     uint128 uuid_num;
     pg_uuid_t* uuid;
-    Numeric result; 
-    
+    Numeric temp;
+    Numeric result;
+
     uuid = PG_GETARG_UUID_P(0);
     uuid_num = Uint128BE((uint8_t*)uuid->data);
 
-    str_buf = palloc(40);
-    uint128_to_string(uuid_num, str_buf, 40);
+    str_buf = palloc(41);
+    num_str = uint128_to_string(uuid_num, str_buf, 41);
 
-    result = numeric_in(InputBuffer(buf, strlen(buf)));
+    temp = DatumGetNumeric(DirectFunctionCall1(
+        numeric_in,
+        CStringGetDatum(num_str)
+    ));
 
-    pfree(buf)
- 
+    result = DatumGetNumeric(DirectFunctionCall1(
+        numeric_trim_scale,
+        NumericGetDatum(temp)
+    ));
+
+    pfree(str_buf);
+    pfree(temp);
+
     PG_RETURN_NUMERIC(result);
 }
 
