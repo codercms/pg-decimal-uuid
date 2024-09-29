@@ -49,7 +49,6 @@ Datum uuid_to_decimal(PG_FUNCTION_ARGS)
     char *num_str;
     uint128 uuid_num;
     pg_uuid_t* uuid;
-    Numeric temp;
     Numeric result;
 
     uuid = PG_GETARG_UUID_P(0);
@@ -58,18 +57,14 @@ Datum uuid_to_decimal(PG_FUNCTION_ARGS)
     str_buf = palloc(41);
     num_str = uint128_to_string(uuid_num, str_buf, 41);
 
-    temp = DatumGetNumeric(DirectFunctionCall1(
+    result = DatumGetNumeric(DirectFunctionCall3(
         numeric_in,
-        CStringGetDatum(num_str)
-    ));
-
-    result = DatumGetNumeric(DirectFunctionCall1(
-        numeric_trim_scale,
-        NumericGetDatum(temp)
+        CStringGetDatum(num_str),
+        ObjectIdGetDatum(0),
+        Int32GetDatum(-1)
     ));
 
     pfree(str_buf);
-    pfree(temp);
 
     PG_RETURN_NUMERIC(result);
 }
