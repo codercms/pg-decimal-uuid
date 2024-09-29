@@ -54,9 +54,9 @@ SELECT decimal_to_uuid(uuid_to_decimal(id))
 FROM uuids;
                                                       QUERY PLAN
 ----------------------------------------------------------------------------------------------------------------------
- Seq Scan on pg_temp.uuids  (cost=0.00..2042.27 rows=100085 width=16) (actual time=0.014..40.866 rows=100000 loops=1)
+ Seq Scan on pg_temp.uuids  (cost=0.00..2042.27 rows=100085 width=16) (actual time=0.014..35.706 rows=100000 loops=1)
    Output: decimal_to_uuid(uuid_to_decimal(id))
- Planning Time: 0.062 ms
- Execution Time: 42.647 ms
+ Planning Time: 0.135 ms
+ Execution Time: 37.781 ms
 (4 rows)
 ```
