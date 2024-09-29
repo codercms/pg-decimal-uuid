@@ -14,33 +14,8 @@ PG_MODULE_MAGIC;
 PG_FUNCTION_INFO_V1(uuid_to_decimal);
 PG_FUNCTION_INFO_V1(decimal_to_uuid);
 
-void _PG_init(void);
-
 Datum uuid_to_decimal(PG_FUNCTION_ARGS);
 Datum decimal_to_uuid(PG_FUNCTION_ARGS);
-
-// 2^32 = 4294967296
-static Numeric numeric_2_pow_32 = NULL;
-// 2^64 = 18446744073709551616
-static Numeric numeric_2_pow_64 = NULL;
-
-void _PG_init(void)
-{
-    bool have_error = false;
-    MemoryContext oldContext = MemoryContextSwitchTo(TopMemoryContext);
-
-    if (numeric_2_pow_32 == NULL)
-    {
-        numeric_2_pow_32 = DatumGetNumeric(DirectFunctionCall1(int8_numeric, Int64GetDatum(4294967296)));
-    }
-
-    if (numeric_2_pow_64 == NULL)
-    {
-        numeric_2_pow_64 = numeric_mul_opt_error(numeric_2_pow_32, numeric_2_pow_32, &have_error);
-    }
-
-    MemoryContextSwitchTo(oldContext);
-}
 
 // Function to convert UUID to decimal
 Datum uuid_to_decimal(PG_FUNCTION_ARGS)
@@ -55,7 +30,7 @@ Datum uuid_to_decimal(PG_FUNCTION_ARGS)
     uuid_num = Uint128BE((uint8_t*)uuid->data);
 
     str_buf = palloc(41);
-    num_str = uint128_to_string(uuid_num, str_buf, 41);
+    num_str = uint128_to_string_v2(uuid_num, str_buf, 41);
 
     result = DatumGetNumeric(DirectFunctionCall3(
         numeric_in,
