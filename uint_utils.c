@@ -74,8 +74,14 @@ char* uint128_to_string(uint128 value, char* buffer, size_t buffer_size) {
         // Get the last digit
         uint64_t digit = value % 10;
         value /= 10;
+        ptr--;
+
+        if (ptr < buffer) {
+            elog(ERROR, "Pointer overflow");
+        }
+
         // Prepend the digit to the string
-        *(--ptr) = '0' + digit;
+        *ptr = '0' + digit;
     }
 
     return ptr; // Return the pointer to the start of the string

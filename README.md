@@ -46,17 +46,17 @@ Here is the results on PostgreSQL 15 (Ubuntu 24.04 LTS) for 100 000 iterations:
 ```
 postgres=# create extension uuid_decimal;
 CREATE EXTENSION
-
 postgres=# CREATE TEMPORARY TABLE uuids AS
 SELECT gen_random_uuid() AS id FROM generate_series(1, 100000);
 SELECT 100000
 postgres=# EXPLAIN ANALYZE VERBOSE
-SELECT decimal_to_uuid(uuid_to_decimal(id)) FROM uuids;
+SELECT decimal_to_uuid(uuid_to_decimal(id))
+FROM uuids;
                                                       QUERY PLAN
 ----------------------------------------------------------------------------------------------------------------------
- Seq Scan on pg_temp.uuids  (cost=0.00..2042.27 rows=100085 width=16) (actual time=0.015..51.352 rows=100000 loops=1)
+ Seq Scan on pg_temp.uuids  (cost=0.00..2042.27 rows=100085 width=16) (actual time=0.014..40.866 rows=100000 loops=1)
    Output: decimal_to_uuid(uuid_to_decimal(id))
- Planning Time: 12.202 ms
- Execution Time: 53.231 ms
+ Planning Time: 0.062 ms
+ Execution Time: 42.647 ms
 (4 rows)
 ```
